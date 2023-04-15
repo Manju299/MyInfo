@@ -69,33 +69,35 @@ public class Home extends AppCompatActivity {
         userData.setSchoolName(schoolName);
         userData.setCollegeName(cName);
 
-        DatabaseReference dataRef = databaseReference.push();
-        dataRef.setValue(userData, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
-                if (error !=null){
-                    Toast.makeText(Home.this,"failed" ,Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(Home.this,"Successful",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-//        databaseReference.addValueEventListener(new ValueEventListener() {
+//        DatabaseReference dataRef = databaseReference.push();
+//        dataRef.setValue(userData, new DatabaseReference.CompletionListener() {
 //            @Override
-//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-//                databaseReference.setValue(userData);
-//                Toast.makeText(Home.this,"Data added successfully",Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(Home.this,DetailsPage.class);
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//                Toast.makeText(Home.this,"Failed to Add Data" ,Toast.LENGTH_LONG).show();
-//
+//            public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
+//                if (error !=null){
+//                    Toast.makeText(Home.this,"failed" ,Toast.LENGTH_LONG).show();
+//                }
+//                else {
+//                    Toast.makeText(Home.this,"Successful",Toast.LENGTH_LONG).show();
+//                    Intent intent = new Intent(Home.this,DetailsPage.class);
+//                    startActivity(intent);
+//                }
 //            }
 //        });
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                databaseReference.setValue(userData);
+                Toast.makeText(Home.this,"Data added successfully",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Home.this,DetailsPage.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Toast.makeText(Home.this,"Failed to Add Data" ,Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
 
