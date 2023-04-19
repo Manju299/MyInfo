@@ -36,7 +36,9 @@
               android:maxLength="30"
               android:layout_margin="10dp"
               android:inputType="textEmailAddress"
-              android:backgroundTint="@color/teal_200"
+              android:padding="10dp"
+              android:background="@drawable/textview_round"
+              android:selectAllOnFocus="true"
               android:layout_marginTop="30dp"
               android:minHeight="48dp"
     />
@@ -46,9 +48,10 @@
               android:hint="Enter your Password"
               android:maxLength="30"
               android:id="@+id/passtext"
-              android:backgroundTint="@color/teal_200"
               android:inputType="textPassword"
               android:layout_margin="10dp"
+              android:padding="10dp"
+              android:background="@drawable/textview_round"
               android:maxLines="1"
               android:layout_marginTop="20dp"
               android:minHeight="48dp"/>

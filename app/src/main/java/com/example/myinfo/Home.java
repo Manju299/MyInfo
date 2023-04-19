@@ -1,6 +1,9 @@
 package com.example.myinfo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
@@ -11,6 +14,7 @@ import android.os.Bundle;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.NoRouteToHostException;
 
 public class Home extends AppCompatActivity {
@@ -19,7 +23,9 @@ public class Home extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     UserData userData;
-    private TextView onSubmit;
+    private TextView onSubmit,uploadpic;
+    private Uri filePath;
+    private final int PIC_IMAGE_REQUEST = 71;
 
 
 
@@ -39,6 +45,18 @@ public class Home extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("UserInfo");
         userData = new UserData();
         onSubmit = findViewById(R.id.onSubmit);
+
+        uploadpic = findViewById(R.id.Pic);
+
+
+        uploadpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectPicture();
+            }
+        });
+
+
 
         onSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,4 +121,34 @@ public class Home extends AppCompatActivity {
 
 
     }
+    private void selectPicture(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select profile picture"),PIC_IMAGE_REQUEST);
+
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(resultCode == PIC_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore
+                        .Images
+                        .Media
+                        .getBitmap(getContentResolver(), filePath);
+                pic.setImageBitmap(bitmap);
+            }
+
+            catch (IOException e){
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
 }

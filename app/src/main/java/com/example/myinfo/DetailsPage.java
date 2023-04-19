@@ -1,5 +1,9 @@
 package com.example.myinfo;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -18,6 +22,8 @@ public class DetailsPage extends AppCompatActivity {
 
     public TextView fName, lName, fatherName, schoolName, cName;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +35,9 @@ public class DetailsPage extends AppCompatActivity {
         fatherName = findViewById(R.id.fathername);
         schoolName = findViewById(R.id.schoolname);
         cName = findViewById(R.id.cname);
+
         getData();
+
 
     }
 
@@ -40,10 +48,16 @@ public class DetailsPage extends AppCompatActivity {
 
                 if(snapshot != null){
                     HashMap<String,Object> map = (HashMap<String,Object>) snapshot.getValue();
-                     Object name = map.get("firstName");
+                    Object name = map.get("firstName");
                     Object lname = map.get("lastName");
+                    Object fname = map.get("fatherName");
+                    Object sname = map.get("schoolName");
+                    Object cname = map.get("collegeName");
                     fName.setText(""+name);
                     lName.setText(""+lname);
+                    fatherName.setText(""+fname);
+                    schoolName.setText(""+sname);
+                    cName.setText(""+cname);
                 }
             }
 
@@ -84,4 +98,5 @@ public class DetailsPage extends AppCompatActivity {
             }
         });
     }
+
 }
