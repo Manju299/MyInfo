@@ -24,8 +24,10 @@ public class Home extends AppCompatActivity {
     DatabaseReference databaseReference;
     UserData userData;
     private TextView onSubmit,uploadpic;
-    private Uri filePath;
-    private final int PIC_IMAGE_REQUEST = 71;
+//    private Uri uri;
+    private final int PIC_IMAGE_REQUEST = 1;
+
+    private Bitmap bitmap;
 
 
 
@@ -38,14 +40,13 @@ public class Home extends AppCompatActivity {
         fathername = findViewById(R.id.fathername);
         schoolname = findViewById(R.id.schoolname);
         cname = findViewById(R.id.cname);
-        pic = findViewById(R.id.pic);
+        pic = findViewById(R.id.image1);
         picAdhar = findViewById(R.id.picAdhar);
         picPan = findViewById(R.id.picPan);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("UserInfo");
         userData = new UserData();
         onSubmit = findViewById(R.id.onSubmit);
-
         uploadpic = findViewById(R.id.Pic);
 
 
@@ -125,28 +126,38 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select profile picture"),PIC_IMAGE_REQUEST);
-
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PIC_IMAGE_REQUEST);
+//        startActivityForResult(intent, RESULT_LOAD_IMAGE);
 
     }
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode == PIC_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(getContentResolver(), filePath);
-                pic.setImageBitmap(bitmap);
+//        if(resultCode == PIC_IMAGE_REQUEST && resultCode == RESULT_OK){
+//            uri = data.getData();
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+//
+//            }
+//
+//            catch (IOException e){
+//                e.printStackTrace();
+//            }
+//            pic.setImageBitmap(bitmap);
+//
+//        }
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == PIC_IMAGE_REQUEST) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    pic.setImageURI(selectedImageUri);
+                }
             }
-
-            catch (IOException e){
-                e.printStackTrace();
-            }
-
-
         }
     }
 
